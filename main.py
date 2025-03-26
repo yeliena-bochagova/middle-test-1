@@ -23,3 +23,22 @@ def filter_last_month_data(data):
     today = datetime.date.today()
     last_month = today - datetime.timedelta(days=30)
     return [entry for entry in data if entry[1] >= last_month]
+
+
+def analyze_price_changes(data):
+    """Аналізує зміни цін для всіх товарів за останній місяць."""
+    product_data = defaultdict(list)
+
+    for name, date, price in data:
+        product_data[name].append((date, price))
+
+    results = []
+    for product_name, entries in product_data.items():
+        sorted_entries = sorted(entries, key=lambda x: x[0])
+        first_price = sorted_entries[0][1]
+        last_price = sorted_entries[-1][1]
+        price_diff = last_price - first_price
+        results.append(
+            f"Зміна ціни на '{product_name}': {first_price} -> {last_price} ({'+' if price_diff > 0 else ''}{price_diff}) грн")
+
+    return "\n".join(results)
