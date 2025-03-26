@@ -42,3 +42,10 @@ def analyze_price_changes(data):
             f"Зміна ціни на '{product_name}': {first_price} -> {last_price} ({'+' if price_diff > 0 else ''}{price_diff}) грн")
 
     return "\n".join(results)
+
+if __name__ == "__main__":
+    filename = "products.txt"  # Ім'я файлу з даними
+    data = read_data_from_file(filename)
+    last_month_data = filter_last_month_data(data)
+    result = analyze_price_changes(last_month_data)
+    print(result)
